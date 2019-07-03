@@ -1,0 +1,230 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+
+#define TECLA_DERECHA 77
+#define TECLA_IZQUIERDA 75
+#define Filas 7
+#define Colum 10
+#define Segundos 1000
+
+void iniciar_pantalla();
+void actualizar();
+void spawn();
+void impresion();
+void movimiento(int tecla);
+void abrir_fichero(FILE *archivo);
+void mejores_puntaje(FILE *archivo);
+
+struct score{
+    char nombre[100];
+    float puntuacion_max[100];
+};
+
+typedef struct score punt;
+
+int vidas=3, tablero[Filas][Colum], mov, cont=0, cont1=0;
+double puntaje = 0;
+clock_t start_t;
+
+main(){
+    int tecla;
+
+    FILE *puntuacion;
+    abrir_fichero(puntuacion);
+
+	srand((unsigned int)time(NULL));
+	iniciar_pantalla();
+
+	do{
+        if(kbhit()){
+        	tecla=getch();
+        	if(tecla==TECLA_DERECHA || tecla==TECLA_IZQUIERDA){
+        		movimiento(tecla);
+			}
+		}
+		spawn();
+		impresion();
+		actualizar();
+		start_t = clock()/Segundos;
+        system("cls");
+
+	}while(vidas>0);
+
+	system("cls");
+	printf("Tu puntaje es: %.0f\n", puntaje);
+	printf("Tu tiempo es: %ld\n", start_t);
+	_getch();
+	system("cls");
+	printf("\nLos mejores puntajes son: \n");
+	mejores_puntaje(puntuacion);
+}
+void iniciar_pantalla(){
+	for(int i=0;i<Filas;i++){
+		for(int j=0;j<Colum;j++){
+			tablero[i][j]=0;
+		}
+	}
+}
+
+void actualizar(){
+	int aux=0;
+	for(int i=Filas-1;i>=0;i--){
+		for(int j=Colum-1;j>=0;j--){
+			if(i!=Filas-1){
+				aux=tablero[i][j];
+				tablero[i][j]=0;
+				tablero[i+1][j]=aux;
+			}
+		}
+	}
+}
+
+void spawn(){
+	int pos;
+	pos=rand()%10;
+	if(cont1!=2){
+		if(cont==5){
+			tablero[0][pos]=2;
+			cont1++;
+			cont=0;
+		}
+		else{
+			tablero[0][pos]=1;
+			cont++;
+		}
+	}
+	else{
+		tablero[0][pos]=3;
+		cont1=0;
+	}
+}
+
+void impresion(){
+    printf("vidas: %d     Puntaje: %.0f\n\n", vidas, puntaje);
+    printf("Tiempo: %ld\n", start_t);
+	for(int i=0;i<Filas;i++){
+		for(int j=0;j<Colum;j++){
+            if(tablero[i][j]==0){
+				printf(" ");
+            }else{
+				if(tablero[i][j]==1){
+                    printf("%c", 224);
+                    if(i == Filas-2){
+                        if(j == mov){
+                            puntaje += 100;
+                        }
+                    }
+				}
+
+				if(tablero[i][j]==2){
+					printf("%c", 228);
+					(clock()/144)/5;
+                    if(i == Filas-2){
+                        if(j == mov){
+                            vidas-=2;
+                        }
+                    }
+				}
+				if(tablero[i][j]==3){
+					printf("%c", 209);
+                    if(i == Filas-2){
+                        if(j == mov){
+                            vidas+=1;
+                        }
+                    }
+				}
+				if(tablero[i][j]==4){
+					printf("%c", 220);
+				}
+			}
+		}
+		printf("\n");
+	}
+}
+
+void movimiento(int tecla){
+    switch(tecla){
+    case TECLA_DERECHA:
+        mov++;
+        if(mov > 9){
+            mov = 9;
+        }
+        break;
+    case TECLA_IZQUIERDA:
+        mov--;
+        if(mov < 0){
+            mov = 0;
+        }
+        break;
+    }
+    tablero[Filas-1][mov] = 4;
+}
+
+void abrir_fichero(FILE *archivo){
+
+    if((archivo = fopen("puntajes.txt","rt")) == NULL){
+        fclose(archivo);
+        archivo = fopen("puntajes.txt","wt");
+        fclose(archivo);
+        printf("Creando Fichero");
+        Sleep(500);
+        printf(".");
+        Sleep(500);
+        printf(".");
+        Sleep(500);
+        printf(".");
+        Sleep(500);
+        system("cls");
+        printf("Presione cualquier tecla para continuar");
+        _getch();
+    }
+}
+
+void mejores_puntaje(FILE *archivo){
+
+    int contscore = 0;
+    float aux;
+    char auxnom;
+
+    punt jugador;
+
+    archivo = fopen("puntajes.txt","at");
+
+    fprintf(archivo, "%.0f\n", puntaje);
+
+    fclose(archivo);
+
+    for(int i = 0; i < 5; i++ ){
+    	jugador.puntuacion_max[i] = 0;
+	}
+
+    archivo = fopen("puntajes.txt","rt");
+
+    while((fscanf(archivo, "%f", &jugador.puntuacion_max[contscore]))!= EOF){
+        contscore++;
+    }
+
+    fclose(archivo);
+
+    for(int j = 0; j < contscore; j++){
+        for(int i = 0; i < contscore; i++){
+            if(jugador.puntuacion_max[i] < jugador.puntuacion_max[i+1]){
+                aux = jugador.puntuacion_max[i+1];
+                jugador.puntuacion_max[i+1] = jugador.puntuacion_max[i];
+                jugador.puntuacion_max[i] = aux;
+            }
+        }
+    }
+
+    for(int i = 0; i < 5; i++){
+        if(jugador.puntuacion_max[i] == puntaje){
+            printf("%d.- %.0f <--\n", i+1, jugador.puntuacion_max[i]);
+        }else{
+            printf("%d.- %.0f\n", i+1, jugador.puntuacion_max[i]);
+        }
+        Sleep(500);
+    }
+}
