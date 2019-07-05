@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <windows.h>
+
+int menu(const char *titulo, const char *opciones[], int n);
+void gotoxy(int x,int y);
+
+main(){
+  
+ SetConsoleTitle("ROTTEN APPLE");
+    int tecla = 4;
+    int opcion;
+system("color A0");
+
+    const char *titulo = "Menu del Juego rotten apple";
+    const char *opciones[4] = {"COMO JUGAR", "JUGAR", "CREDITOS", "SALIR"};
+    opcion = menu(titulo, opciones, tecla);
+
+    switch(opcion){
+    case 1:
+        system("cls");
+        printf("\nEN CONSTRUCCION\n");
+        
+        break;
+        
+    case 2:
+        system("cls");
+        printf("\nEn construccion\n");
+        break;
+    case 3:
+        system("cls");
+        printf("\nEn construccion\n");
+        break;
+    case 4:
+        system("cls");
+        printf("\nEn construccion\n");
+        
+        exit(0);
+       
+    }
+
+ }
+
+int menu(const char *titulo, const char *opciones[], int n){
+    int seleccion = 1;
+    int tecla;
+    bool repite = true;
+
+    do{
+        system("cls");
+        gotoxy(8, 3 + seleccion);printf(">");
+
+        gotoxy(15,2);printf("%s", titulo);
+
+        for(int i = 0; i < n; i++){
+            gotoxy(10, 4+i);printf("%s",opciones[i]);
+        }
+
+        do{
+            tecla = getch();
+        }while(tecla != 72 && tecla != 80 && tecla != 13);
+
+        switch(tecla){
+        case 72:
+            seleccion--;
+
+            if(seleccion == 0){
+                seleccion = n;
+            }
+            break;
+        case 80:
+            seleccion++;
+            if(seleccion > n){
+                seleccion = 1;
+            }
+            break;
+        case 13:
+            repite = false;
+            break;
+        }
+
+    }while(repite);
+
+    return seleccion;
+}
+
+ void gotoxy(int x,int y){
+      HANDLE hcon;
+      hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+      COORD dwPos;
+      dwPos.X = x;
+      dwPos.Y= y;
+      SetConsoleCursorPosition(hcon,dwPos);
+}
