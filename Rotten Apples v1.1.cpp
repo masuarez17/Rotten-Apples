@@ -42,7 +42,6 @@ main(){
 
     FILE *puntuacion;
     abrir_fichero(puntuacion);
-
 	while(1){
 		SetConsoleTitle("ROTTEN APPLE");
 		int tecla = 5;
@@ -82,6 +81,8 @@ main(){
 		}
 	}
 }
+
+	
 
 
 void iniciar_pantalla(){
