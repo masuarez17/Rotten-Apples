@@ -57,6 +57,9 @@ main(){
 			system("cls");
 			load_screen();
 		    juego_iniciar(puntuacion);
+		    puntaje = 0;
+		    vidas = 3;
+		    start_t -= start_t;
 		    break;
 		case 2:
 		    system("cls");
@@ -98,11 +101,13 @@ void iniciar_pantalla(){
 }
 
 void juego_iniciar(FILE *puntuacion){
+
     int tecla, flag=0, counter=0, dificultad=0, spawnrate=0;
     bool ban=true;
 	srand((unsigned int)time(NULL));
 	iniciar_pantalla();
 	do{
+
 		if(kbhit()){
         	tecla=_getch();
         	if(tecla==TECLA_DERECHA || tecla==TECLA_IZQUIERDA){
@@ -136,6 +141,7 @@ void juego_iniciar(FILE *puntuacion){
 		}
 		counter++;
 		system("cls");
+
 	}while(vidas>0);
 	system("cls");
 	printf("Tu puntaje es: %.0f\n", puntaje);
@@ -150,6 +156,7 @@ void actualizar(){
 	int aux=0;
 	for(int i=Filas-1;i>=0;i--){
 		for(int j=0;j<Colum;j++){
+
 			if(tablero[i][j]==2 && i==Filas-2 && j==mov){
 				vidas-=2;
 			}
@@ -169,6 +176,7 @@ void actualizar(){
                     tablero[i+1][j]=aux;
                 }
 			}
+
 		}
 	}
 }
@@ -194,9 +202,11 @@ void spawn(){
 }
 
 void impresion(){
+
     printf("vidas: %d     Puntaje: %.0f\n\n", vidas, puntaje);
     printf("Tiempo: %ld\n", start_t);
 	for(int i=0;i<Filas;i++){
+		
 		for(int j=0;j<Colum;j++){
             if(tablero[i][j]==0){
 				printf(" ");
@@ -216,6 +226,7 @@ void impresion(){
 			}
 		}
 		printf("\n");
+
 	}
 }
 
@@ -264,7 +275,7 @@ void mejores_puntaje(FILE *archivo){
     punt jugador;
 
     archivo = fopen("puntajes.txt","at");
-    fprintf(archivo, "%.0f %.0f\n", puntaje, start_t);
+    fprintf(archivo, "%.0f %ld\n", puntaje, start_t);
     fclose(archivo);
     for(int i = 0; i < 5; i++ ){
     	jugador.puntuacion_max[i] = 0;
@@ -365,7 +376,7 @@ void creditos(){
 void como_jugar(){
 
 	printf("\nComo jugar\n");
-	printf("\n -> Mueve  a Gusi el gusanito utilizando las flechas del teclado (<- ->)\n");
+	printf("\n -> Mueve a Gusi el gusano utilizando las flechas del teclado (<- ->)\n");
 	printf("\n -> Contaras con 3 vidas al inicio del juego\n");
 	printf("\n -> Con los flechas esquiva las manzanas danadas para no perder vida\n");
 	printf("\n -> Si llegas a cojer una manzana danada se restara 2 vidas del  total de vidas\n ");
