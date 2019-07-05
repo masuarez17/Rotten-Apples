@@ -1,0 +1,44 @@
+#include<graphics.h>
+#include<conio.h>
+#include<dos.h>
+
+main()
+{
+   int gd = DETECT, gm, x, y, color, angle = 30;
+   struct arccoordstype a, b;
+   initgraph(&gd, &gm, "C:\\TC\\BGI");
+   delay(2000);
+   setcolor(GREEN);
+   arc(360,80,90,180,70);
+   arc(300,20,270,360,70);
+
+   while(angle<=330)
+   {
+     rectangle(10,10,600,500);
+
+      setcolor(RED);
+      arc(getmaxx()/2,getmaxy()/2,angle,angle+100,120);
+      setcolor(RED);
+      getarccoords(&a);
+
+      circle(a.xstart,a.ystart,1);
+      setcolor(RED);
+      arc(getmaxx()/2,getmaxy()/2,angle,angle+100,9);
+      getarccoords(&a);
+
+      circle(a.xstart,a.ystart,99);
+      setcolor(RED);
+      angle = angle+5;
+      delay(50);
+
+   }
+   settextstyle(3,5,5);
+   outtextxy(260, 400, "Rotten Apples");
+   settextstyle(3,5,5);
+   outtextxy(420,470, "Bienvenido");
+   getch();
+   closegraph();
+
+
+
+}
