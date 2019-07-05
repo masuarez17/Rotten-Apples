@@ -1,0 +1,12 @@
+#include <winbgim.h> 
+
+int main(int argc, char *argv[])
+{
+	initwindow(800, 600);					// muestra el tamaño de ventana
+	setbkcolor(4);							// color de ventana
+   	cleardevice();
+	setcolor(15);							// color de texto
+	outtextxy(0,0,"Graphics in Dev-C++");// de 0 a 100 el primero muestra la posicion en x la segunda en y
+	while(!kbhit()) delay(1);				// detiene la pantalla	
+
+}
