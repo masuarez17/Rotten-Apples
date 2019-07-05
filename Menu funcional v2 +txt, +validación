@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <windows.h>
+
+int menu(const char *titulo, const char *opciones[], int n);
+void gotoxy(int x,int y);
+
+main(){
+  while(1){
+ SetConsoleTitle("ROTTEN APPLE");
+    int tecla = 4;
+    int opcion;
+system("color A0");
+
+    const char *titulo = "Menu del Juego rotten apple";
+    const char *opciones[4] = {"COMO JUGAR", "JUGAR", "CREDITOS", "SALIR"};
+    opcion = menu(titulo, opciones, tecla);
+
+    switch(opcion){
+    case 1:
+        system("cls");
+        printf("\nComo jugar\n");
+        printf("\n -> Mueve  el guisanito  utilizando las flechas del teclado\n");
+        printf("\n -> Contaras con 3 vidas al inicio del juego\n");
+		printf("\n -> Con los flechas esquiva las manzanas danadas para no perder vida\n");
+		printf("\n -> Si llegas a cojer una manzana danada se restara 2 vidas del  total de vidas\n ");
+		printf("\n -> Si llegas a cojer una manzana dorada se te sumara 1 vida al total de vidas \n");
+		printf("\n -> Si dejas caer manzanas normales (rojas) no pasa nada, solo ten cuidado de las manzanas danadas\n");
+        break;
+        
+    case 2:
+        system("cls");
+        printf("\nEn construccion\n");
+        break;
+    case 3:
+        system("cls");
+        printf("\nDesarrollado por:\n");
+        printf("/-David Muños\n /-Pallango Andres\n /-Marcos Suarez\n /-Henry Tiamba\n /-Steeven Vargas\n");
+        break;
+    case 4:
+        system("cls");
+        printf("\nDesarrollado por:\n");
+        printf("/-David Munos\n /-Pallango Andres\n /-Marcos Suarez\n /-Henry Tiamba\n /-Steeven Vargas\n");
+        printf("\n\n GRACIAS POR JUGAR \n\n");
+        exit(0);
+       
+    }
+printf("\nPresione cuaquier tecla para regresar al menu principal");
+getch();
+}
+ }
+
+int menu(const char *titulo, const char *opciones[], int n){
+    int seleccion = 1;
+    int tecla;
+    bool repite = true;
+
+    do{
+        system("cls");
+        gotoxy(8, 3 + seleccion);printf(">");
+
+        gotoxy(15,2);printf("%s", titulo);
+
+        for(int i = 0; i < n; i++){
+            gotoxy(10, 4+i);printf("%s",opciones[i]);
+        }
+
+        do{
+            tecla = getch();
+        }while(tecla != 72 && tecla != 80 && tecla != 13);
+
+        switch(tecla){
+        case 72:
+            seleccion--;
+
+            if(seleccion == 0){
+                seleccion = n;
+            }
+            break;
+        case 80:
+            seleccion++;
+            if(seleccion > n){
+                seleccion = 1;
+            }
+            break;
+        case 13:
+            repite = false;
+            break;
+        }
+
+    }while(repite);
+
+    return seleccion;
+}
+
+ void gotoxy(int x,int y){
+      HANDLE hcon;
+      hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+      COORD dwPos;
+      dwPos.X = x;
+      dwPos.Y= y;
+      SetConsoleCursorPosition(hcon,dwPos);
+}
