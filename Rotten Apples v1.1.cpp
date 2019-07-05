@@ -1,3 +1,4 @@
+/*Autoria; Vargas Steeven,Pallango Andrés, ,Muños Francisco, Suares Marcos, Tiamba Henrry*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
