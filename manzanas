@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+void iniciar_pantalla();
+void actualizar();
+void spawn();
+void impresion();
+#define TECLA_DERECHA 77
+#define TECLA_IZQUIERDA 75
+#define Filas 7
+#define Colum 10
+int vidas=3, tablero[Filas][Colum], cont=0,cont1=0;
+
+main(){
+	srand((unsigned int)time(NULL));
+	iniciar_pantalla();
+	do{
+		actualizar();
+		system("cls");
+		impresion();
+ 	spawn();
+		Sleep(330);
+	}while(vidas>0);
+}
+void iniciar_pantalla(){
+	for(int i=0;i<Filas;i++){
+		for(int j=0;j<Colum;j++){
+			tablero[i][j]=0;
+		}
+	}
+}
+void actualizar(){
+	int aux=0;
+	for(int i=Filas-1;i>=0;i--){
+		for(int j=Colum-1;j>=0;j--){
+			if(i!=Filas-1){
+				aux=tablero[i][j];
+				tablero[i][j]=0;
+				tablero[i+1][j]=aux;
+			}
+		}
+	}
+}
+void spawn(){
+	int pos;
+	pos=rand()%10;
+	if(cont1!=2){
+		if(cont==5){
+			tablero[0][pos]=2;
+			cont1++;
+			cont=0;
+		}
+		else{
+			tablero[0][pos]=1;
+			cont++;
+		}
+	}
+	else{
+		tablero[0][pos]=3;
+		cont1=0;
+	}
+}
+void impresion(){
+	for(int i=0;i<Filas;i++){
+		for(int j=0;j<Colum;j++){
+			if(tablero[i][j]==0){
+				printf(" ");
+			}
+			else{
+				if(tablero[i][j]==1){
+					printf("%c", 224);
+				}
+				if(tablero[i][j]==2){
+					printf("%c", 228);
+				}
+				if(tablero[i][j]==3){
+					printf("%c", 209);
+				}
+				if(tablero[i][j]==4){
+					printf("%c", 220);
+				}
+			}
+		}
+		printf("\n");
+	}
+}
