@@ -1,0 +1,19 @@
+#include <conio.h>
+#include <iostream.h>
+
+#define IZQUIERDA75
+#define DERECHA 77
+
+char manzana_l1[]={' ',' ',' ', '*',' ',' ',' ',0};
+char manzana_l2[]={' ',' ','*', '*','*',' ',' ',0};
+char manzana_l3[]={' ','*',' ', '*',' ','*',' ',0};
+
+char personaje_l1[]={' ',' ','*','*',' ',' ',' ',0};
+char personaje_l2[]={' ','*','*','*','*',' ',' ',0};
+char personaje_l3[]={' ',' ','*','*',' ',' ',' ',0};
+
+char personaje_r1[]={'*',' ','*','*',' ','*',' ',0};
+char personaje_r2[]={' ','*','*','*','*',' ',' ',0};
+char personaje_r3[]={'*',' ','*','*',' ','*',' ',0};
+
+char borrar_personaje[]={' ',' ',' ',' ',' ',' ',' ',0};
